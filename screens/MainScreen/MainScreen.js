@@ -27,7 +27,9 @@ const MainScreen = props => {
                 <View>
                     <Input 
                         onSubmit={AddNewTask}
+                        onCancel={() => setModelActive(false)}
                         visible={modelActive}
+
                     />
                 </View>
                 <View style={{ flex: 1 }}>

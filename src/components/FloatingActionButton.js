@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
     View,
     Text,
     TouchableOpacity,
     StyleSheet
 } from 'react-native';
+import { ThemeContext } from '../contexts/ThemeContext';
 
 const ActionButton = props => {
+    const { theme } = useContext(ThemeContext);
     return (
         <TouchableOpacity
             onPress={() => props.onClick()}
             activeOpacity={0.7}
-            style={{...styles.container}}>
-            <View style={styles.content}>
+            style={ theme === 'dark' ? {...stylesCommon.container, ...stylesDarkTheme.container} : stylesCommon.container}>
+            <View style={stylesCommon.content}>
                 <Text 
-                    style={{ ...styles.title }}>
+                    style={{ ...stylesCommon.title }}>
                     +
                 </Text>
             </View>
@@ -22,7 +24,7 @@ const ActionButton = props => {
     );
 }
 
-const styles = StyleSheet.create({
+const stylesCommon = StyleSheet.create({
     container: {
         position: 'absolute',
         width: 60,
@@ -30,7 +32,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         bottom: 0,
         right: 0,
-        backgroundColor: '#333',
+        backgroundColor: '#0047b3',
         margin: 10
     },
     content: {
@@ -43,6 +45,12 @@ const styles = StyleSheet.create({
         color: '#FFF',
         fontSize: 20
     }
-})
+});
+
+const stylesDarkTheme = StyleSheet.create({
+    container: {
+        backgroundColor: '#333'
+    }
+});
 
 export default ActionButton;

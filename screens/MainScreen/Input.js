@@ -18,12 +18,22 @@ const Input = props => {
         setText('');
     }
 
+    const Cancel = () => {
+        props.onCancel()
+        setText('');
+    }
+
     return (
+        // pop up when press add button
         <Modal 
             visible={props.visible} 
             transparent={true}
             animationType="slide">
-            <View style={ theme === 'dark' ? {...stylesCommon.container, ...stylesDarkTheme.container} : stylesCommon.container}>
+            {/* hide modal when click on screen */}
+            <TouchableOpacity
+                activeOpacity={1} 
+                onPress={Cancel}
+                style={ theme === 'dark' ? {...stylesCommon.container, ...stylesDarkTheme.container} : stylesCommon.container}>
                 <TextInput
                     onChangeText={setText}
                     style={ theme === 'dark' ? {...stylesCommon.inputText, ...stylesDarkTheme.inputText} : stylesCommon.inputText}
@@ -31,25 +41,36 @@ const Input = props => {
                     placeholder="Type here..."
                     placeholderTextColor={ theme === 'dark' ? "#FFF" : "#000"}
                 />
+                {/* button to add task */}
                 <TouchableOpacity
                     onPress={Add}
                     activeOpacity={0.8}
                     style={ theme === 'dark' ? {...stylesCommon.submitButton, ...stylesDarkTheme.submitButton} : stylesCommon.submitButton}>
-                    <Text 
-                        style={ theme === 'dark' ? {...stylesCommon.submitButtonTitle, ...stylesDarkTheme.submitButtonTitle} : stylesCommon.submitButtonTitle}>
+                    <Text style={stylesCommon.submitButtonTitle}>
                         Add
                     </Text>
                 </TouchableOpacity>
-            </View>
+                {/* button to cancel and hide modal */}
+                <TouchableOpacity
+                    onPress={Cancel}
+                    activeOpacity={0.8}
+                    style={{...stylesCommon.submitButton, ...stylesCommon.cancelButton}}>
+                    <Text style={stylesCommon.submitButtonTitle}>
+                        Cancel
+                    </Text>
+                </TouchableOpacity>
+            </TouchableOpacity>
         </Modal>
     );
 }
 
+// light theme style
 const stylesCommon = StyleSheet.create({
     container: {
         display: 'flex',
         flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.4)',
+        padding: 10,
+        backgroundColor: 'rgba(0,0,0,0.6)',
         justifyContent: 'center',
         flexDirection: 'column'
     },
@@ -59,23 +80,28 @@ const stylesCommon = StyleSheet.create({
         fontSize: 18,
         marginHorizontal: 5
     },
+    cancelButton: {
+        backgroundColor: 'red',
+    },
     submitButton: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#0052cc',
         paddingVertical: 8,
-        paddingHorizontal: 16,
         borderRadius: 5,
         overflow: 'hidden',
-        marginHorizontal: 5
+        marginHorizontal: 5,
+        marginTop: 12
     },
     submitButtonTitle: {
         fontSize: 18,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: '#FFF'
     }
 });
 
+// dark theme style
 const stylesDarkTheme = StyleSheet.create({
     inputText: {
         borderBottomColor: '#FFF',
@@ -83,9 +109,6 @@ const stylesDarkTheme = StyleSheet.create({
     },
     submitButton: {
         backgroundColor: '#333'
-    },
-    submitButtonTitle: {
-        color: '#FFF'
     }
 });
 
