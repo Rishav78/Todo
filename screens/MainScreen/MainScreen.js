@@ -12,11 +12,13 @@ import { ThemeContext } from '../../src/contexts/ThemeContext';
 
 const MainScreen = props => {
     const { theme } = useContext(ThemeContext);
+    const [modelActive, setModelActive] = useState(false);
     const [todoList, setTodoList] = useState([]);
 
     const AddNewTask = (task) => {
         if(!task) return;
         setTodoList(prevState => [...prevState, task]);
+        setModelActive(false);
     }
 
     return (
@@ -25,6 +27,7 @@ const MainScreen = props => {
                 <View>
                     <Input 
                         onSubmit={AddNewTask}
+                        visible={modelActive}
                     />
                 </View>
                 <View style={{ flex: 1 }}>
@@ -35,7 +38,9 @@ const MainScreen = props => {
                             <Task title={e.item} />
                         )} />
                 </View>
-                <ActionButton />
+                <ActionButton
+                    onClick={() => setModelActive(true)}
+                />
             </View>
         </SafeAreaView>
     );

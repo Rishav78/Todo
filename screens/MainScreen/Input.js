@@ -4,7 +4,8 @@ import {
     TouchableOpacity,
     TextInput,
     Text,
-    StyleSheet
+    StyleSheet,
+    Modal
 } from 'react-native';
 import { ThemeContext } from '../../src/contexts/ThemeContext';
 
@@ -18,34 +19,41 @@ const Input = props => {
     }
 
     return (
-        <View style={ theme === 'dark' ? {...stylesCommon.container, ...stylesDarkTheme.container} : stylesCommon.container}>
-            <TextInput
-                onChangeText={setText}
-                style={ theme === 'dark' ? {...stylesCommon.inputText, ...stylesDarkTheme.inputText} : stylesCommon.inputText}
-                value={text}
-                placeholder="Type here..."
-                placeholderTextColor={ theme === 'dark' ? "#FFF" : "#000"}
-            />
-            <TouchableOpacity
-                onPress={Add}
-                activeOpacity={0.8}
-                style={stylesCommon.submitButton}>
-                <Text 
-                    style={stylesCommon.submitButtonTitle}>
-                    Send
-                </Text>
-            </TouchableOpacity>
-        </View>
+        <Modal 
+            visible={props.visible} 
+            transparent={true}
+            animationType="slide">
+            <View style={ theme === 'dark' ? {...stylesCommon.container, ...stylesDarkTheme.container} : stylesCommon.container}>
+                <TextInput
+                    onChangeText={setText}
+                    style={ theme === 'dark' ? {...stylesCommon.inputText, ...stylesDarkTheme.inputText} : stylesCommon.inputText}
+                    value={text}
+                    placeholder="Type here..."
+                    placeholderTextColor={ theme === 'dark' ? "#FFF" : "#000"}
+                />
+                <TouchableOpacity
+                    onPress={Add}
+                    activeOpacity={0.8}
+                    style={ theme === 'dark' ? {...stylesCommon.submitButton, ...stylesDarkTheme.submitButton} : stylesCommon.submitButton}>
+                    <Text 
+                        style={ theme === 'dark' ? {...stylesCommon.submitButtonTitle, ...stylesDarkTheme.submitButtonTitle} : stylesCommon.submitButtonTitle}>
+                        Add
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        </Modal>
     );
 }
 
 const stylesCommon = StyleSheet.create({
     container: {
         display: 'flex',
-        flexDirection: 'row'
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.4)',
+        justifyContent: 'center',
+        flexDirection: 'column'
     },
     inputText: {
-        flex: 1,
         borderBottomWidth: 1,
         padding: 0,
         fontSize: 18,
@@ -55,7 +63,7 @@ const stylesCommon = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#333',
+        backgroundColor: '#0052cc',
         paddingVertical: 8,
         paddingHorizontal: 16,
         borderRadius: 5,
@@ -63,20 +71,22 @@ const stylesCommon = StyleSheet.create({
         marginHorizontal: 5
     },
     submitButtonTitle: {
-        color: '#FFF',
         fontSize: 18,
         fontWeight: 'bold'
     }
 });
 
 const stylesDarkTheme = StyleSheet.create({
-    container: {
-        backgroundColor: '#1a1a1a'
-    },
     inputText: {
         borderBottomColor: '#FFF',
         color: '#FFF'
+    },
+    submitButton: {
+        backgroundColor: '#333'
+    },
+    submitButtonTitle: {
+        color: '#FFF'
     }
-})
+});
 
 export default Input;

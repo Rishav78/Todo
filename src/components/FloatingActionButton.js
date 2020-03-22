@@ -9,6 +9,7 @@ import {
 const ActionButton = props => {
     return (
         <TouchableOpacity
+            onPress={() => props.onClick()}
             activeOpacity={0.7}
             style={{...styles.container}}>
             <View style={styles.content}>
