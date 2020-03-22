@@ -5,8 +5,12 @@ import {
     FlatList,
     StyleSheet
 } from 'react-native';
+import {
+    Container,
+    Fab,
+    Icon
+} from 'native-base';
 import Input from './Input';
-import ActionButton from '../../src/components/FloatingActionButton';
 import Task from './Task';
 import { ThemeContext } from '../../src/contexts/ThemeContext';
 
@@ -23,27 +27,32 @@ const MainScreen = props => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <View style={ theme === 'dark' ? {...stylesCommon.container, ...stylesDarkTheme.container} : stylesCommon.container }>
-                <View>
-                    <Input 
-                        onSubmit={AddNewTask}
-                        onCancel={() => setModelActive(false)}
-                        visible={modelActive}
+            <Container>
+                <View style={ theme === 'dark' ? {...stylesCommon.container, ...stylesDarkTheme.container} : stylesCommon.container }>
+                    <View>
+                        <Input 
+                            onSubmit={AddNewTask}
+                            onCancel={() => setModelActive(false)}
+                            visible={modelActive}
 
-                    />
+                        />
+                    </View>
+                    <View style={{ flex: 1 }}>
+                        <FlatList 
+                            keyExtractor={(e, i) => i.toString()}
+                            data={todoList}
+                            renderItem={(e) => (
+                                <Task title={e.item} />
+                            )} />
+                    </View>
+                    <Fab
+                        style={ theme === 'dark' ? {...stylesCommon.addTaskButton, ...stylesDarkTheme.addTaskButton} : stylesCommon.addTaskButton}
+                        onPress={() => setModelActive(true)}
+                        position="bottomRight">
+                        <Icon name="add" />
+                    </Fab>
                 </View>
-                <View style={{ flex: 1 }}>
-                    <FlatList 
-                        keyExtractor={(e, i) => i.toString()}
-                        data={todoList}
-                        renderItem={(e) => (
-                            <Task title={e.item} />
-                        )} />
-                </View>
-                <ActionButton
-                    onClick={() => setModelActive(true)}
-                />
-            </View>
+            </Container>
         </SafeAreaView>
     );
 };
@@ -52,12 +61,18 @@ const stylesCommon = StyleSheet.create({
     container: {
       flex: 1,
       padding: 10
+    },
+    addTaskButton: {
+        backgroundColor: '#0047b3',
     }
 });
 
 const stylesDarkTheme = StyleSheet.create({
     container: {
         backgroundColor: '#1a1a1a'
+    },
+    addTaskButton: {
+        backgroundColor: '#333'
     }
 })
 
