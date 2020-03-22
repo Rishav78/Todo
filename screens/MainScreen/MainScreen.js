@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
     SafeAreaView,
     View,
-    Text,
     FlatList,
     StyleSheet
 } from 'react-native';
 import Input from './Input';
+import ActionButton from '../../src/components/FloatingActionButton';
+import Task from './Task';
+import { ThemeContext } from '../../src/contexts/ThemeContext';
 
 const MainScreen = props => {
+    const { theme } = useContext(ThemeContext);
     const [todoList, setTodoList] = useState([]);
 
     const AddNewTask = (task) => {
@@ -18,7 +21,7 @@ const MainScreen = props => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <View style={styles.container}>
+            <View style={ theme === 'dark' ? {...stylesCommon.container, ...stylesDarkTheme.container} : stylesCommon.container }>
                 <View>
                     <Input 
                         onSubmit={AddNewTask}
@@ -29,18 +32,26 @@ const MainScreen = props => {
                         keyExtractor={(e, i) => i.toString()}
                         data={todoList}
                         renderItem={(e) => (
-                            <Text>{e.item}</Text>
+                            <Task title={e.item} />
                         )} />
                 </View>
+                <ActionButton />
             </View>
         </SafeAreaView>
     );
 };
 
-const styles = StyleSheet.create({
+const stylesCommon = StyleSheet.create({
     container: {
-      flex: 1
+      flex: 1,
+      padding: 10
     }
-  });
+});
+
+const stylesDarkTheme = StyleSheet.create({
+    container: {
+        backgroundColor: '#1a1a1a'
+    }
+})
 
 export default MainScreen;

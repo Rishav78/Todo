@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
     View,
     TouchableOpacity,
@@ -6,8 +6,10 @@ import {
     Text,
     StyleSheet
 } from 'react-native';
+import { ThemeContext } from '../../src/contexts/ThemeContext';
 
 const Input = props => {
+    const { theme } = useContext(ThemeContext);
     const [text, setText] = useState('');
 
     const Add = () => {
@@ -16,19 +18,20 @@ const Input = props => {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={ theme === 'dark' ? {...stylesCommon.container, ...stylesDarkTheme.container} : stylesCommon.container}>
             <TextInput
                 onChangeText={setText}
-                style={styles.inputText}
+                style={ theme === 'dark' ? {...stylesCommon.inputText, ...stylesDarkTheme.inputText} : stylesCommon.inputText}
                 value={text}
                 placeholder="Type here..."
+                placeholderTextColor={ theme === 'dark' ? "#FFF" : "#000"}
             />
             <TouchableOpacity
                 onPress={Add}
                 activeOpacity={0.8}
-                style={styles.submitButton}>
+                style={stylesCommon.submitButton}>
                 <Text 
-                    style={styles.submitButtonTitle}>
+                    style={stylesCommon.submitButtonTitle}>
                     Send
                 </Text>
             </TouchableOpacity>
@@ -36,7 +39,7 @@ const Input = props => {
     );
 }
 
-const styles = StyleSheet.create({
+const stylesCommon = StyleSheet.create({
     container: {
         display: 'flex',
         flexDirection: 'row'
@@ -65,5 +68,15 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     }
 });
+
+const stylesDarkTheme = StyleSheet.create({
+    container: {
+        backgroundColor: '#1a1a1a'
+    },
+    inputText: {
+        borderBottomColor: '#FFF',
+        color: '#FFF'
+    }
+})
 
 export default Input;

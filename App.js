@@ -8,10 +8,15 @@
 
 import React from 'react';
 import MainScreen from './screens/MainScreen/MainScreen';
+import ThemeContextProvider from './src/contexts/ThemeContext';
 
 
 const App = () => {
-  return <MainScreen />;
+  return (
+    <ThemeContextProvider>
+      <MainScreen />
+    </ThemeContextProvider>
+  );;
 };
 
 export default App;
