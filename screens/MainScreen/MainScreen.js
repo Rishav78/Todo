@@ -5,14 +5,12 @@ import {
     FlatList,
     StyleSheet
 } from 'react-native';
-import {
-    Container,
-    Fab,
-    Icon
-} from 'native-base';
+
+import { FAB, Provider } from 'react-native-paper';
 import Input from './Input';
 import Task from './Task';
 import { ThemeContext } from '../../src/contexts/ThemeContext';
+import Header from './Header';
 
 const MainScreen = props => {
     const { theme } = useContext(ThemeContext);
@@ -27,7 +25,8 @@ const MainScreen = props => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <Container>
+            <Provider>
+                <Header />
                 <View style={ theme === 'dark' ? {...stylesCommon.container, ...stylesDarkTheme.container} : stylesCommon.container }>
                     <View>
                         <Input 
@@ -45,14 +44,13 @@ const MainScreen = props => {
                                 <Task title={e.item} />
                             )} />
                     </View>
-                    <Fab
-                        style={ theme === 'dark' ? {...stylesCommon.addTaskButton, ...stylesDarkTheme.addTaskButton} : stylesCommon.addTaskButton}
+                    <FAB
+                        icon="plus"
                         onPress={() => setModelActive(true)}
-                        position="bottomRight">
-                        <Icon name="add" />
-                    </Fab>
+                        style={ theme === 'dark' ? {...stylesCommon.addTaskButton, ...stylesDarkTheme.addTaskButton} : stylesCommon.addTaskButton}
+                    />
                 </View>
-            </Container>
+            </Provider>
         </SafeAreaView>
     );
 };
@@ -64,6 +62,10 @@ const stylesCommon = StyleSheet.create({
     },
     addTaskButton: {
         backgroundColor: '#0047b3',
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        margin: 25
     }
 });
 
