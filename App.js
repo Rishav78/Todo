@@ -9,12 +9,15 @@
 import React from 'react';
 import MainScreen from './screens/MainScreen/MainScreen';
 import ThemeContextProvider from './src/contexts/ThemeContext';
+import DatabaseContextProvider from './src/contexts/dataseContext';
 
 
 const App = () => {
   return (
     <ThemeContextProvider>
-      <MainScreen />
+      <DatabaseContextProvider>
+        <MainScreen />
+      </DatabaseContextProvider>
     </ThemeContextProvider>
   );;
 };

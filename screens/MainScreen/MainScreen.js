@@ -5,21 +5,21 @@ import {
     FlatList,
     StyleSheet
 } from 'react-native';
-
 import { FAB, Provider } from 'react-native-paper';
 import Input from './Input';
 import Task from './Task';
 import { ThemeContext } from '../../src/contexts/ThemeContext';
+import { DatabseContext } from '../../src/contexts/dataseContext';
 import Header from './Header';
 
 const MainScreen = props => {
     const { theme } = useContext(ThemeContext);
+    const { insert, tasks } = useContext(DatabseContext);
     const [modelActive, setModelActive] = useState(false);
-    const [todoList, setTodoList] = useState([]);
 
     const AddNewTask = (task) => {
         if(!task) return;
-        setTodoList(prevState => [...prevState, task]);
+        insert(task);
         setModelActive(false);
     }
 
@@ -33,13 +33,12 @@ const MainScreen = props => {
                             onSubmit={AddNewTask}
                             onCancel={() => setModelActive(false)}
                             visible={modelActive}
-
                         />
                     </View>
                     <View style={{ flex: 1 }}>
                         <FlatList 
                             keyExtractor={(e, i) => i.toString()}
-                            data={todoList}
+                            data={tasks}
                             renderItem={(e) => (
                                 <Task title={e.item} />
                             )} />
