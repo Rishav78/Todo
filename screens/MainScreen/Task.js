@@ -11,11 +11,14 @@ import { ThemeContext } from '../../src/contexts/ThemeContext';
 const Task = props => {
     const { theme } = useContext(ThemeContext);
     return (
-        <TouchableOpacity style={{ flex: 1 }}>
+        <TouchableOpacity 
+            onLongPress={() => props.onLongPress()}
+            style={{ flex: 1 }}
+            onPress={() => props.onPress()}>
             <View 
                 style={theme === 'dark' ? { ...stylesCommon.container, ...stylesDarkTheme.container } : stylesCommon.container}>
                 <Text 
-                    style={theme === 'dark' ? { ...stylesCommon.title, ...stylesDarkTheme.title } : stylesCommon.title}>
+                    style={(theme === 'dark' ? { ...stylesCommon.title, ...stylesDarkTheme.title } : stylesCommon.title)}>
                     { props.title }
                 </Text>
             </View>

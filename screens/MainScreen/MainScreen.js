@@ -14,12 +14,12 @@ import Header from './Header';
 
 const MainScreen = props => {
     const { theme } = useContext(ThemeContext);
-    const { insert, tasks } = useContext(DatabseContext);
+    const { Insert, updateCompleted, tasks, Delete } = useContext(DatabseContext);
     const [modelActive, setModelActive] = useState(false);
 
     const AddNewTask = (task) => {
         if(!task) return;
-        insert(task);
+        Insert(task);
         setModelActive(false);
     }
 
@@ -40,7 +40,11 @@ const MainScreen = props => {
                             keyExtractor={(e, i) => i.toString()}
                             data={tasks}
                             renderItem={(e) => (
-                                <Task title={e.item} />
+                                <Task 
+                                    title={e.item.task}
+                                    onLongPress={() => Delete(e.index)}
+                                    completed={e.item.completed === 1}
+                                    onPress={() => updateCompleted(e.item.completed === 1 ? 0 : 1)} />
                             )} />
                     </View>
                     <FAB
